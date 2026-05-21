@@ -17,12 +17,12 @@ final class RegistrationService
             'password' => Hash::make( $data['password'] ),
         ]);
 
-        $this->createVerficationCode($user);
+        $this->createVerificationCode($user);
 
         return $user;
     }
 
-    private function createVerficationCode(User $user): VerificationCode
+    private function createVerificationCode(User $user): VerificationCode
     {
         return $user->verificationCodes()->create([
             'code' => $this->generateCode(),
