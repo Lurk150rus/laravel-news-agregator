@@ -26,4 +26,19 @@ class RegistrationTest extends TestCase
 
         $this->assertDatabaseHas('verification_codes', ['user_id' => $user->id]);
     }
+
+    public function test_registration_md5_password(): void
+    {
+        $response = $this->post('/register', [
+            'login' => 'testuser',
+            'password' => 'password123',
+        ]);
+
+        $response->assertStatus(201);
+
+        $user = \App\Models\User::where('login', 'testuser')->first();
+        $this->assertNotNull($user);
+
+        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('password123', $user->password));
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Services\Auth;
 
 use App\Models\User;
 use App\Models\VerificationCode;
+use Illuminate\Support\Facades\Hash;
 
 final class RegistrationService
 {
@@ -13,7 +14,7 @@ final class RegistrationService
     {
         $user = User::create([
             'login' => $data['login'],
-            'password' => $data['password'],
+            'password' => Hash::make( $data['password'] ),
         ]);
 
         $this->createVerficationCode($user);
