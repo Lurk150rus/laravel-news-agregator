@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Auth;
+namespace App\Http\Services\Auth;
 
-use App\Services\Auth\VerificationCodeGenerator;
 use App\Models\User;
 use App\Models\VerificationCode;
+use App\Services\Auth\VerificationCodeGenerator;
 use Illuminate\Support\Facades\Hash;
 
 final class RegistrationService
@@ -35,8 +35,4 @@ final class RegistrationService
         ]);
     }
 
-    private function generateCode(): string
-    {
-        return (string) random_int(100000, 999999);
-    }
 }
