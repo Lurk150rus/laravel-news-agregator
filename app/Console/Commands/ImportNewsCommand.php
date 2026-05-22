@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\News\Importers\HackerNewsImporter;
+use App\Services\News\NewsImportManager;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 #[Description('Import news from external sources')]
 class ImportNewsCommand extends Command
 {
-    public function __construct( private HackerNewsImporter $importService )
+    public function __construct( private NewsImportManager $importService)
     {
         parent::__construct();
     }
@@ -20,8 +20,8 @@ class ImportNewsCommand extends Command
      */
     public function handle()
     {
-        $count = $this->importService->import();
-        // Logic to import news from external sources
+        $count = $this->importService->importAll();
+
         $this->info('News imported successfully! Total imported: ' . $count);
 
         return self::SUCCESS;
