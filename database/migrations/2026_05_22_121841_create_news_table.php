@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->string('source');
             $table->timestamp('received_at');
-            $table->unique('source', 'external_id');
+            $table->unique(['source', 'external_id']);
         });
     }
 
