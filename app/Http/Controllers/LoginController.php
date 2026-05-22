@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Services\Auth\LoginService;
+use App\Services\Auth\LoginService;
 
 class LoginController extends Controller
 {

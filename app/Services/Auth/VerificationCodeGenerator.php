@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Services\Auth;
+namespace App\Services\Auth;
 
 final class VerificationCodeGenerator
 {

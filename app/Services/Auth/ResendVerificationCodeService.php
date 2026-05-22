@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Services\Auth;
+namespace App\Services\Auth;
 
-use App\Http\Services\Auth\VerificationCodeGenerator;
+use App\Services\Auth\VerificationCodeGenerator;
 use Illuminate\Validation\ValidationException;
 
 class ResendVerificationCodeService
