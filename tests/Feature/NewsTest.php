@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\News;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class NewsTest extends TestCase
@@ -22,9 +22,10 @@ class NewsTest extends TestCase
     public function test_auth_verified(): void
     {
         $user = \App\Models\User::factory()->create();
+        News::factory()->count(25)->create();
 
         $response = $this->actingAs($user)->get('/news');
-
+        $response->viewData('news');
         $response->assertStatus(200);
         $response->assertViewIs('news.index');
     }
