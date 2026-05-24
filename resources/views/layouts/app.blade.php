@@ -6,10 +6,11 @@
 </head>
 <body>
 
-<header style="margin-bottom: 20px;">
-    <a href="/news">News</a>
+    <header style="margin-bottom: 20px;">
+        <a href="/">Home</a>
+        <a href="/news">News</a>
 
-    @auth
+        @auth
         <span style="margin-left: 10px;">
             {{ auth()->user()->login }}
         </span>
@@ -18,19 +19,29 @@
             @csrf
             <button type="submit">Logout</button>
         </form>
-    @endauth
+        @endauth
 
-    @guest
+        @guest
         <a href="/login">Login</a>
         <a href="/register">Register</a>
-    @endguest
-</header>
+        @endguest
+    </header>
 
-<hr>
+    <hr>
 
-<main>
-    @yield('content')
-</main>
+    <main>
+        @if ($errors->any())
+        <div style="color: red; margin-bottom: 15px;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        @yield('content')
+    </main>
 
 </body>
 </html>
