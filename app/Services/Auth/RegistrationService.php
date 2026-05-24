@@ -28,8 +28,12 @@ final class RegistrationService
 
     private function createVerificationCode(User $user): VerificationCode
     {
+        $newCode = $this->codeGenerator->generate();
+
+        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode));
+
         return $user->verificationCodes()->create([
-            'code' => $this->codeGenerator->generate(),
+            'code' => $newCode,
             'expires_at' => now()->addMinutes(10),
             'sent_at' => now(),
         ]);

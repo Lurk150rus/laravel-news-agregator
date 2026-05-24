@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class ResendVerificationCodeTest extends TestCase
@@ -36,6 +36,8 @@ class ResendVerificationCodeTest extends TestCase
 
     public function test_resend_code(): void
     {
+        Queue::fake();
+
         $user = \App\Models\User::factory()->unverified()->create([
             'login' => 'testuser',
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
@@ -50,6 +52,12 @@ class ResendVerificationCodeTest extends TestCase
         $response = $this->postJson('/resend-code', [
             'login' => 'testuser',
         ]);
+
+        $code = \App\Models\VerificationCode::where('user_id', $user->id)->orderBy('sent_at', 'desc')->first();
+
+        Queue::assertPushed(\App\Jobs\SendVerificationCodeJob::class, function ($job) use ($user, $code) {
+            return $job->userId === $user->id && $job->code === $code->code;
+        });
 
         $response->assertStatus(302);
     }

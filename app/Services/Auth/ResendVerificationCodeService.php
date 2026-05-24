@@ -48,5 +48,6 @@ class ResendVerificationCodeService
             'sent_at' => now(),
         ]);
 
+        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode));
     }
 }

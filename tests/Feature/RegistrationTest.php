@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -22,6 +22,8 @@ class RegistrationTest extends TestCase
      */
     public function test_user_registration_creates_verification_code(): void
     {
+        Queue::fake();
+
         $response = $this->post('/register', [
             'login' => 'testuser',
             'password' => 'password123',
@@ -33,6 +35,12 @@ class RegistrationTest extends TestCase
         $this->assertNotNull($user);
 
         $this->assertDatabaseHas('verification_codes', ['user_id' => $user->id]);
+
+        $code = \App\Models\VerificationCode::where('user_id', $user->id)->first();
+
+        Queue::assertPushed(\App\Jobs\SendVerificationCodeJob::class, function ($job) use ($user, $code) {
+            return $job->userId === $user->id && $job->code === $code->code;
+        });
     }
 
     public function test_registration_md5_password(): void
