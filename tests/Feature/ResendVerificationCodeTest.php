@@ -51,6 +51,6 @@ class ResendVerificationCodeTest extends TestCase
             'login' => 'testuser',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 }

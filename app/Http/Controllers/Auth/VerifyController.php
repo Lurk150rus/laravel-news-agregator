@@ -11,6 +11,17 @@ class VerifyController extends Controller
 {
     public function store(VerifyRequest $request, VerificationService $service)
     {
-        return $service->verify($request->validated());
+        $service->verify($request->validated());
+
+        $user = User::firstWhere('login', $request->validated()['login']);
+
+        auth()->login($user);
+
+        return redirect('/news');
+    }
+
+    public function form()
+    {
+        return view('auth.verify');
     }
 }

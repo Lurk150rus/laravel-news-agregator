@@ -30,6 +30,12 @@
     <hr>
 
     <main>
+        @if (session('status'))
+        <div style="color: green;">
+            {{ session('status') }}
+        </div>
+        @endif
+
         @if ($errors->any())
         <div style="color: red; margin-bottom: 15px;">
             <ul>

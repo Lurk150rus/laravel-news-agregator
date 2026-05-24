@@ -18,6 +18,13 @@ class VerificationTest extends TestCase
      */
     const MAX_ATTEMPTS = 5;
 
+    public function test_verification_page(): void
+    {
+        $response = $this->get('/verify');
+        $response->assertViewIs('auth.verify');
+        $response->assertStatus(200);
+    }
+
     public function test_verification(): void
     {
         $user = \App\Models\User::factory()->unverified()->create([
@@ -36,7 +43,7 @@ class VerificationTest extends TestCase
             'code' => '123456',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 
     public function test_verification_with_invalid_code(): void

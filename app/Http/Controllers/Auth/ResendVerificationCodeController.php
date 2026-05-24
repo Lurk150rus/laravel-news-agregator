@@ -11,7 +11,8 @@ class ResendVerificationCodeController extends Controller
     public function resend(ResendVerificationCodeRequest $request, ResendVerificationCodeService $service)
     {
 
-        return $service->resend($request->validated());
+        $service->resend($request->validated());
 
+        return back()->with('status', 'Code sent');
     }
 }
