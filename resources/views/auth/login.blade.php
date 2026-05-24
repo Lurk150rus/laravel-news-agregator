@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <h1>Login</h1>
 
 <form method="POST" action="/login">
@@ -10,3 +14,5 @@
 </form>
 
 <a href="/register">Register</a>
+
+@endsection

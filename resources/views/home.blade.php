@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>News App</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 
 <h1>News Aggregator</h1>
 
@@ -11,5 +8,4 @@
     <a href="/news">Go to news</a>
 </p>
 
-</body>
-</html>
+@endsection
