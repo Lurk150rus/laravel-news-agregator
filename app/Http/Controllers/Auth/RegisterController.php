@@ -13,4 +13,9 @@ class RegisterController extends Controller
     {
         return $service->register($request->validated());
     }
+
+    public function form()
+    {
+        return view('auth.register');
+    }
 }

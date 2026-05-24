@@ -8,6 +8,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Middleware\Verified;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/register', [RegisterController::class, 'form']);
 Route::post('/register', [RegisterController::class, 'store']);
 Route::post('/verify', [
     VerifyController::class,
@@ -15,11 +16,14 @@ Route::post('/verify', [
 ]);
 
 Route::post('/resend-code', [ResendVerificationCodeController::class, 'resend']);
-Route::post('/login', [LoginController::class, 'login']);
 
+Route::get('/login', [LoginController::class, 'form']);
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/', function () {
     return view('home');
 });
+
 Route::group(['middleware' => [Verified::class]], function () {
     Route::get('/news', [NewsController::class, 'index']);
 });
