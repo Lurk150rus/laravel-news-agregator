@@ -29,4 +29,5 @@ Route::get('/', function () {
 
 Route::group(['middleware' => [Verified::class]], function () {
     Route::get('/news', [NewsController::class, 'index'])->name('news');
+    Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
 });
