@@ -8,9 +8,14 @@
 
     <header style="margin-bottom: 20px;">
         <a href="/">Home</a>
-        <a href="/news">News</a>
-
         @auth
+
+            @verified
+               <a href="/news">News</a>
+            @else
+               <a href="/verify">Verify account</a>
+            @endverified
+
         <span style="margin-left: 10px;">
             {{ auth()->user()->login }}
         </span>

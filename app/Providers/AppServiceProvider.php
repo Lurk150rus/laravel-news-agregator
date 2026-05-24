@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\News\Importers\HackerNewsImporter;
 use App\Services\News\NewsImportManager;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::directive('verified', function () {
+            return "<?php if(auth()->check() && auth()->user()->is_verified): ?>";
+        });
+        Blade::directive('endverified', function () {
+            return "<?php endif; ?>";
+        });
     }
 }

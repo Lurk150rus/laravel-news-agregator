@@ -24,6 +24,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('home');
+        return redirect()->route('home');
     }
 }

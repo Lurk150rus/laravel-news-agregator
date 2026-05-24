@@ -22,9 +22,10 @@ Route::post('/resend-code', [ResendVerificationCodeController::class, 'resend'])
 Route::get('/login', [LoginController::class, 'form']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::group(['middleware' => [Verified::class]], function () {
     Route::get('/news', [NewsController::class, 'index']);
