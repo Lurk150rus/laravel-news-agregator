@@ -15,8 +15,12 @@ class Verified
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if(! auth()?->check()) {
+            return redirect('/login');
+        }
+
         if(! auth()?->user()?->is_verified ) {
-            abort(403, 'You are not verified.');
+            return redirect()->route('verify');
         }
 
         return $next($request);

@@ -16,7 +16,9 @@ class NewsTest extends TestCase
     {
         $response = $this->get('/news');
 
-        $response->assertStatus(403);
+        $response->assertStatus(302);
+
+        $response->assertRedirect('/login');
     }
 
     public function test_auth_verified(): void
@@ -35,7 +37,7 @@ class NewsTest extends TestCase
         $user = \App\Models\User::factory()->unverified()->create();
 
         $response = $this->actingAs($user)->get('/news');
-
-        $response->assertStatus(403);
+        $response->assertStatus(302);
+        $response->assertRedirect('/verify');
     }
 }

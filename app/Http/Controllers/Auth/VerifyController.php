@@ -13,10 +13,6 @@ class VerifyController extends Controller
     {
         $service->verify($request->validated());
 
-        $user = User::firstWhere('login', $request->validated()['login']);
-
-        auth()->login($user);
-
         return redirect('/news');
     }
 

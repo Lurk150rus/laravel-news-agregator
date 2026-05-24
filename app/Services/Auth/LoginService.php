@@ -20,12 +20,7 @@ class LoginService
             ]);
         }
 
-        if (!$user->is_verified) {
-            throw ValidationException::withMessages([
-                'login' => 'User not verified',
-            ]);
-        }
-
+        auth()->login($user);
 
         return [
             'user' => [

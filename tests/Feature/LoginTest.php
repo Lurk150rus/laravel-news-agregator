@@ -28,7 +28,8 @@ class LoginTest extends TestCase
             'login' => 'testuser',
             'password' => 'password123',
         ]);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
+        $response->assertRedirect('/news');
     }
 
     public function test_incorrect_login(): void
@@ -58,6 +59,7 @@ class LoginTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(302);
+        $response->assertRedirect('/verify');
     }
 }

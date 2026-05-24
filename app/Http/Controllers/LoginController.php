@@ -10,7 +10,9 @@ class LoginController extends Controller
 {
     public function login(LoginRequest $request, LoginService $service)
     {
-        return $service->login($request->validated());
+        $service->login($request->validated());
+
+        return auth()?->user()->is_verified ? redirect('/news') : redirect()->route('verify');
     }
 
     public function form()
