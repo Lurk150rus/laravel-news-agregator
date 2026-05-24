@@ -11,7 +11,7 @@
         @auth
 
             @verified
-               <a href="/news">News</a>
+               <a href="{{ route('news') }}">News</a>
             @else
                <a href="/verify">Verify account</a>
             @endverified
@@ -20,15 +20,15 @@
             {{ auth()->user()->login }}
         </span>
 
-        <form method="POST" action="/logout" style="display:inline;">
+        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
             @csrf
             <button type="submit">Logout</button>
         </form>
         @endauth
 
         @guest
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a href="{{ route('login') }}">Login</a>
+        <a href="{{ route('register') }}">Register</a>
         @endguest
     </header>
 
