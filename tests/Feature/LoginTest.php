@@ -9,9 +9,14 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
+    public function test_page():void
+    {
+        $response = $this->get('/login');
+        $response->assertViewIs('auth.login');
+        $response->assertStatus(200);
+    }
+
     public function test_correct_login(): void
     {
         \App\Models\User::factory()->create([

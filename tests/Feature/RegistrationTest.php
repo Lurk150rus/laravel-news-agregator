@@ -9,6 +9,14 @@ use Tests\TestCase;
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_registration_page(): void
+    {
+        $response = $this->get('/register');
+        $response->assertViewIs('auth.register');
+        $response->assertStatus(200);
+    }
+
     /**
      * Проверяет, что при регистрации пользователя создается запись в таблице verification_codes, связанная с этим пользователем.
      */
