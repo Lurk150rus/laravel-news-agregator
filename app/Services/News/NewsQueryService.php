@@ -28,6 +28,6 @@ final class NewsQueryService
             $query->where('source', $filters['source']);
         }
 
-        return $query->orderBy('published_at', 'desc')->paginate($perPage);
+        return $query->orderBy('received_at', 'desc')->paginate($perPage);
     }
 }

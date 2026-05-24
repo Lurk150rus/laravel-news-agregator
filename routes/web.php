@@ -17,6 +17,9 @@ Route::post('/verify', [
 Route::post('/resend-code', [ResendVerificationCodeController::class, 'resend']);
 Route::post('/login', [LoginController::class, 'login']);
 
+Route::get('/', function () {
+    return view('home');
+});
 Route::group(['middleware' => [Verified::class]], function () {
     Route::get('/news', [NewsController::class, 'index']);
 });
