@@ -13,7 +13,7 @@ class VerifyController extends Controller
     {
         $service->verify($request->validated());
 
-        return redirect('/news');
+        return redirect('/news')->with('success', 'Ваш аккаунт успешно подтвержден!');
     }
 
     public function form()
