@@ -1,64 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>News App</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
-    <header style="margin-bottom: 20px;">
-        <a href="/">Home</a>
-        @auth
+<body class="bg-light">
 
-        @verified
-        <a href="{{ route('news') }}">News</a>
-        @else
-        <a href="/verify">Verify account</a>
-        @endverified
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-        <span style="margin-left: 10px;">
-            {{ auth()->user()->login }}
-        </span>
+        <a class="navbar-brand" href="/">NewsApp</a>
 
-        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-            @csrf
-            <button type="submit">Logout</button>
-        </form>
-        @endauth
-        @admin
-        <a href="{{ route('admin.dashboard') }}" style="margin-left: 10px">Admin Panel</a>
-        @endadmin
-        @guest
-        <a href="{{ route('login') }}">Login</a>
-        <a href="{{ route('register') }}">Register</a>
-        @endguest
-    </header>
+        <div class="collapse navbar-collapse show">
 
-    <hr>
+            <ul class="navbar-nav me-auto">
 
-    <main>
-        @if (session('status'))
-        <div style="color: green;">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Главная</a>
+                </li>
+
+                @auth
+
+                    @verified
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('news') }}">Новости</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('verify') }}">Подтвердить аккаунт</a>
+                        </li>
+                    @endverified
+
+                    @admin
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" href="{{ route('admin.dashboard') }}">
+                                Админка
+                            </a>
+                        </li>
+                    @endadmin
+
+                @endauth
+
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                    </li>
+                @endguest
+
+                @auth
+                    <li class="nav-item">
+                        <span class="nav-link text-light">
+                            {{ auth()->user()->login }}
+                        </span>
+                    </li>
+
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-light ms-2">
+                                Выйти
+                            </button>
+                        </form>
+                    </li>
+                @endauth
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    @if (session('status'))
+        <div class="alert alert-success">
             {{ session('status') }}
         </div>
-        @endif
+    @endif
 
-        @if ($errors->any())
-        <div style="color: red; margin-bottom: 15px;">
-            <ul>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                    <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
-        @endif
+    @endif
 
-        @yield('content')
-    </main>
+    @yield('content')
 
-    @yield('scripts')
-    @auth
-        @include('partials.notifications.notification')
-    @endauth
+</div>
+
+@yield('scripts')
+
+@auth
+    @include('partials.notifications.notification')
+@endauth
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
