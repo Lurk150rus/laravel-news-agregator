@@ -18,9 +18,9 @@ class VerificationService
 
     public function verify(array $data)
     {
-        $user = User::where('login', $data['login'])->first();
+        $user = auth()->user();
 
-        if ($user->is_verified) {
+        if ($user?->is_verified) {
             throw ValidationException::withMessages(['code' => 'User already verified']);
         };
 

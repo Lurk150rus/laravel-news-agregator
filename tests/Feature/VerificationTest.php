@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class VerificationTest extends TestCase
@@ -20,6 +21,11 @@ class VerificationTest extends TestCase
 
     public function test_verification_page(): void
     {
+        $user = \App\Models\User::factory()->unverified()->create([
+            'login' => 'testuser',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ]);
+        Auth::login($user);
         $response = $this->get('/verify');
         $response->assertViewIs('auth.verify');
         $response->assertStatus(200);
@@ -32,6 +38,8 @@ class VerificationTest extends TestCase
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
         ]);
 
+        Auth::login($user);
+
         $user->verificationCodes()->create([
             'code' => '123456',
             'expires_at' => now()->addMinutes(10),
@@ -39,11 +47,12 @@ class VerificationTest extends TestCase
         ]);
 
         $response = $this->post('/verify', [
-            'login' => 'testuser',
             'code' => '123456',
         ]);
 
         $response->assertStatus(302);
+        $user->refresh();
+        $this->assertTrue((bool) $user->is_verified);
     }
 
     public function test_verification_with_invalid_code(): void
@@ -53,6 +62,8 @@ class VerificationTest extends TestCase
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
         ]);
 
+        Auth::login($user);
+
         $user->verificationCodes()->create([
             'code' => '123456',
             'expires_at' => now()->addMinutes(10),
@@ -60,7 +71,6 @@ class VerificationTest extends TestCase
         ]);
 
         $response = $this->postJson('/verify', [
-            'login' => 'testuser',
             'code' => '654321',
         ]);
 
@@ -74,6 +84,8 @@ class VerificationTest extends TestCase
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
         ]);
 
+        Auth::login($user);
+
         $user->verificationCodes()->create([
             'code' => '123456',
             'expires_at' => now()->subMinutes(10),
@@ -81,7 +93,6 @@ class VerificationTest extends TestCase
         ]);
 
         $response = $this->postJson('/verify', [
-            'login' => 'testuser',
             'code' => '123456',
         ]);
 
@@ -95,6 +106,8 @@ class VerificationTest extends TestCase
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
         ]);
 
+        Auth::login($user);
+
         $verification = $user->verificationCodes()->create([
             'code' => '123456',
             'expires_at' => now()->addMinutes(10),
@@ -104,7 +117,6 @@ class VerificationTest extends TestCase
 
         for($i = 0; $i < self::MAX_ATTEMPTS; $i++) {
             $response = $this->postJson('/verify', [
-                'login' => 'testuser',
                 'code' => '654321',
             ]);
 

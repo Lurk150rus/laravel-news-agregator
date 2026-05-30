@@ -22,7 +22,7 @@ Route::post('/verify', [
     'store'
 ]);
 
-Route::post('/resend-code', [ResendVerificationCodeController::class, 'resend']);
+Route::post('/resend-code', [ResendVerificationCodeController::class, 'resend'])->name('verification.resend');
 
 Route::get('/login', [LoginController::class, 'form'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);

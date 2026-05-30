@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Messenger\Contract\MessengerInterface;
+use App\Services\Messenger\TelegramMessenger;
 use App\Services\News\Importers\HackerNewsImporter;
 use App\Services\News\NewsImportManager;
 use Illuminate\Support\Facades\Blade;
@@ -22,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
             fn($app) => new NewsImportManager(
                 $app->tagged('news.importers')
             )
+        );
+
+        $this->app->bind(
+            MessengerInterface::class,
+            TelegramMessenger::class
         );
     }
 

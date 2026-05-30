@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Services\Messenger\Contract\MessengerInterface;
+use App\Services\Messenger\FakeMessenger;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
@@ -10,6 +12,12 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->app->bind(MessengerInterface::class, FakeMessenger::class);
+    }
     public function test_registration_page(): void
     {
         $response = $this->get('/register');

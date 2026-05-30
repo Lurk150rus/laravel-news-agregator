@@ -23,7 +23,6 @@ class ResendVerificationCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string']
         ];
     }
 }

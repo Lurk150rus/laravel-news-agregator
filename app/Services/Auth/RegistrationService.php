@@ -31,13 +31,13 @@ final class RegistrationService
     {
         $newCode = $this->codeGenerator->generate();
 
-        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode));
-
-        return $user->verificationCodes()->create([
+        $verification = $user->verificationCodes()->create([
             'code' => $newCode,
             'expires_at' => now()->addMinutes(10),
-            'sent_at' => now(),
         ]);
+
+        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode, $verification->id));
+        return $verification;
     }
 
 }

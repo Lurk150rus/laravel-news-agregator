@@ -17,9 +17,9 @@ class ResendVerificationCodeService
     public function resend(array $data): void
     {
 
-        $user = \App\Models\User::where('login', $data['login'])->first();
+        $user = auth()->user();
 
-        if (! $user ) {
+        if (! $user) {
             throw ValidationException::withMessages([
                 'login' => 'User not found',
             ]);
@@ -31,9 +31,11 @@ class ResendVerificationCodeService
             ]);
         }
 
-        $lastCode = $user->verificationCodes()->latest()->first();
-
-        if ($lastCode && $lastCode->sent_at->diffInSeconds(now()) < self::COOLDOWN_SECONDS) {
+        $lastCode = $user->verificationCodes()
+            ->orderByDesc('id')
+            ->first();
+            
+        if ($lastCode && $lastCode->created_at->diffInSeconds(now()) < self::COOLDOWN_SECONDS) {
             throw ValidationException::withMessages([
                 'login' => 'Please wait before requesting a new code',
             ]);
@@ -42,12 +44,11 @@ class ResendVerificationCodeService
         // Генерация нового кода и отправка пользователю
         $newCode = $this->codeGenerator->generate();
 
-        $user->verificationCodes()->create([
+        $verification = $user->verificationCodes()->create([
             'code' => $newCode,
             'expires_at' => now()->addMinutes(10),
-            'sent_at' => now(),
         ]);
 
-        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode));
+        dispatch(new \App\Jobs\SendVerificationCodeJob($user->id, $newCode, $verification->id));
     }
 }
