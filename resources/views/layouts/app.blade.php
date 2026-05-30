@@ -57,6 +57,8 @@
     </main>
 
     @yield('scripts')
-    @include('partials.notifications.notification')
+    @auth
+        @include('partials.notifications.notification')
+    @endauth
 </body>
 </html>

@@ -17,5 +17,8 @@
 
 @yield('content')
 
+@auth
+    @include('partials.notifications.notification')
+@endauth
 </body>
 </html>
