@@ -19,9 +19,9 @@
                     <li><a href="/" class="text-decoration-none text-light">Главная</a></li>
                     <li><a href="/news" class="text-decoration-none text-light">Новости</a></li>
 
-                    @auth
+                    @notverified
                         <li><a href="/verify" class="text-decoration-none text-light">Верификация</a></li>
-                    @endauth
+                    @endnotverified
 
                     @admin
                         <li><a href="{{ route('admin.dashboard') }}" class="text-decoration-none text-warning">

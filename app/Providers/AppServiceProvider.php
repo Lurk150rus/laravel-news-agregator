@@ -43,6 +43,12 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('endverified', function () {
             return "<?php endif; ?>";
         });
+        Blade::directive('notverified', function () {
+            return "<?php if(auth()->check() && !auth()->user()->is_verified): ?>";
+        });
+        Blade::directive('endnotverified', function () {
+            return "<?php endif; ?>";
+        });
         Blade::directive('admin', function () {
             return "<?php if(auth()->check() && auth()->user()->is_admin): ?>";
         });
