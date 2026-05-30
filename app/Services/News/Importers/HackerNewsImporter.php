@@ -59,6 +59,7 @@ final class HackerNewsImporter implements NewsImporterInterface
                 'received_at' => isset($itemData['time'])
                     ? now()->createFromTimestamp($itemData['time'])
                     : null,
+                'published_at' => now()
             ]);
 
             if ($news->wasRecentlyCreated) {
