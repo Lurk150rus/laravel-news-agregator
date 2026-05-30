@@ -56,10 +56,10 @@ final class HackerNewsImporter implements NewsImporterInterface
                 'title' => $itemData['title'] ?? 'No title',
                 'description' => Str::limit(strip_tags($itemData['text'] ?? ''), 200),
                 'content' => $itemData['text'] ?? '',
-                'received_at' => isset($itemData['time'])
+                'published_at' => isset($itemData['time'])
                     ? now()->createFromTimestamp($itemData['time'])
                     : null,
-                'published_at' => now()
+                'received_at' => now()->format('Y-m-d H:i:s'),
             ]);
 
             if ($news->wasRecentlyCreated) {
