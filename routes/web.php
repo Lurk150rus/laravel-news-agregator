@@ -44,3 +44,6 @@ Route::prefix('admin')->middleware(['auth', Verified::class, Admin::class])->gro
     Route::get('verifications', [AdminVerificationController::class, 'index'])->name('admin.verifications.index');
     Route::get('news', [AdminNewsController::class, 'index'])->name('admin.news.index');
 });
+
+
+Route::middleware(['auth', Verified::class])->get('/stream/notifications', [\App\Http\Controllers\NotificationStreamController::class, 'stream']);

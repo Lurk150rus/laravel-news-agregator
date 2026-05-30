@@ -43,6 +43,20 @@ class RegistrationTest extends TestCase
         });
     }
 
+    public function test_registration_creates_notifications(): void
+    {
+        $response = $this->post('/register', [
+            'login' => 'testuser',
+            'password' => 'password123',
+        ]);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('notifications', [
+            'message' => "New user registered: testuser",
+        ]);
+    }
+
     public function test_registration_md5_password(): void
     {
         $response = $this->post('/register', [

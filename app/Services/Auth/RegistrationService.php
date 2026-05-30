@@ -21,6 +21,7 @@ final class RegistrationService
             'password' => Hash::make($data['password']),
         ]);
 
+        event(new \App\Events\UserRegistered($user));
         $this->createVerificationCode($user);
 
         return $user;

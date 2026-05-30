@@ -42,6 +42,27 @@ class NewsImportTest extends TestCase
         $this->assertDatabaseCount('news', self::NEWS_COUNT_FOR_TEST);
     }
 
+    public function test_import_create_notifications(): void
+    {
+        Http::fake([
+            'hacker-news.firebaseio.com/v0/topstories.json' => Http::response([1], 200),
+
+            'hacker-news.firebaseio.com/v0/item/1.json' => Http::response([
+                'id' => 1,
+                'type' => 'story',
+                'title' => 'Test 1',
+                'text' => 'Body 1',
+                'time' => now()->timestamp,
+            ], 200),
+        ]);
+
+        $this->artisan('news:import')
+            ->assertExitCode(0);
+        $this->assertDatabaseHas('notifications', [
+            'message' => 'New news created: Test 1',
+        ]);
+    }
+
     public function test_repeat_import_does_not_create_duplicates(): void
     {
         Http::fake([

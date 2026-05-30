@@ -131,7 +131,7 @@ document.addEventListener('click', function (e) {
         box.style.display = 'none';
     }
 });
-console.log(reset);
+
 reset.addEventListener('click', function (e) {
     e.preventDefault();
     input.value = '';

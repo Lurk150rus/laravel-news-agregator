@@ -32,6 +32,25 @@ class LoginTest extends TestCase
         $response->assertRedirect('/news');
     }
 
+    public function test_created_notifications(): void
+    {
+        \App\Models\User::factory()->create([
+            'login' => 'testuser',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ]);
+
+        $response = $this->postJson('/login', [
+            'login' => 'testuser',
+            'password' => 'password123',
+        ]);
+        $response->assertStatus(302);
+        $response->assertRedirect('/news');
+
+        $this->assertDatabaseHas('notifications', [
+            'message' => "User authenticated: testuser. User is verified.",
+        ]);
+    }
+
     public function test_incorrect_login(): void
     {
         \App\Models\User::factory()->create([

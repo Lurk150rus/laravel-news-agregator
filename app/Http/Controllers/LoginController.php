@@ -11,7 +11,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request, LoginService $service)
     {
         $service->login($request->validated());
-
+        event(new \App\Events\UserAuth(auth()->user()));
         return auth()?->user()->is_verified ? redirect('/news') : redirect()->route('verify');
     }
 

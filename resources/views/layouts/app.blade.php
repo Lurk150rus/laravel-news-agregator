@@ -57,6 +57,6 @@
     </main>
 
     @yield('scripts')
-
+    @include('partials.notifications.notification')
 </body>
 </html>
