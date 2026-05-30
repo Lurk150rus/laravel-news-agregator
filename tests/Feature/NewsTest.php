@@ -69,4 +69,29 @@ class NewsTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('news.show');
     }
+
+    public function test_show_not_found(): void
+    {
+        $user = \App\Models\User::factory()->create();
+
+        $response = $this->actingAs($user)->get("/news/999");
+        $response->assertStatus(404);
+    }
+
+    public function test_search(): void
+    {
+        $user = \App\Models\User::factory()->create();
+        News::factory()->create([
+            'title' => 'UniqueTitleForSearch',
+            'description' => 'UniqueDescriptionForSearch',
+        ]);
+
+        $response = $this->actingAs($user)->get('/news/search?search=UniqueTitleForSearch');
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['title' => 'UniqueTitleForSearch']);
+
+        $response = $this->actingAs($user)->get('/news/search?search=SomeNonExistingTitle');
+        $response->assertStatus(200);
+        $response->assertExactJson([]);
+    }
 }
