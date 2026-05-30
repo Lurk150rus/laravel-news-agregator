@@ -10,11 +10,11 @@
         <a href="/">Home</a>
         @auth
 
-            @verified
-               <a href="{{ route('news') }}">News</a>
-            @else
-               <a href="/verify">Verify account</a>
-            @endverified
+        @verified
+        <a href="{{ route('news') }}">News</a>
+        @else
+        <a href="/verify">Verify account</a>
+        @endverified
 
         <span style="margin-left: 10px;">
             {{ auth()->user()->login }}
@@ -25,7 +25,9 @@
             <button type="submit">Logout</button>
         </form>
         @endauth
-
+        @admin
+        <a href="{{ route('admin.dashboard') }}" style="margin-left: 10px">Admin Panel</a>
+        @endadmin
         @guest
         <a href="{{ route('login') }}">Login</a>
         <a href="{{ route('register') }}">Register</a>
