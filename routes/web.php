@@ -34,6 +34,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth', Verified::class]], function () {
     Route::get('/news', [NewsController::class, 'index'])->name('news');
+    Route::get('/news/search', [NewsController::class, 'search'])->name('news.search');
     Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
 });
 
