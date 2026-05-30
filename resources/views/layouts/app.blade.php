@@ -86,9 +86,9 @@
 <main class="container mt-4 flex-grow-1">
     <div class="container mt-4">
 
-        @if (session('status'))
+        @if (session('success'))
             <div class="alert alert-success">
-                {{ session('status') }}
+                {{ session('success') }}
             </div>
         @endif
 

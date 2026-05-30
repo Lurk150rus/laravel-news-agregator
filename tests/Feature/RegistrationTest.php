@@ -37,7 +37,8 @@ class RegistrationTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(302);
+        $response->assertRedirect('/verify');
 
         $user = \App\Models\User::where('login', 'testuser')->first();
         $this->assertNotNull($user);
@@ -58,7 +59,8 @@ class RegistrationTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(302);
+        $response->assertRedirect('/verify');
 
         $this->assertDatabaseHas('notifications', [
             'message' => "New user registered: testuser",
@@ -72,11 +74,14 @@ class RegistrationTest extends TestCase
             'password' => 'password123',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(302);
+        $response->isRedirect('/');
 
         $user = \App\Models\User::where('login', 'testuser')->first();
         $this->assertNotNull($user);
 
         $this->assertTrue(\Illuminate\Support\Facades\Hash::check('password123', $user->password));
+
+
     }
 }
