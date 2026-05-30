@@ -23,11 +23,11 @@ class SendUserAuthNotification
     public function handle(UserAuth $event): void
     {
         $is_verirified_message = $event->user->is_verified
-            ? "User is verified."
-            : "User is not verified.";
+            ? "верифицирован"
+            : "не верифицированный";
 
         NotificationService::push(
-            "User authenticated: {$event->user->login}. {$is_verirified_message}"
+            "Пользователь авторизован ({$is_verirified_message}): {$event->user->login}"
         );
     }
 }

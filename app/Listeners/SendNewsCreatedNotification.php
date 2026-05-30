@@ -24,7 +24,7 @@ class SendNewsCreatedNotification
     public function handle(NewsCreated $event): void
     {
         NotificationService::push(
-            "New news created: {$event->news->title}"
+            "Создана новая новость: {$event->news->title}"
         );
     }
 }

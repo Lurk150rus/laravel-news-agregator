@@ -23,7 +23,7 @@ class SendUserRegisteredNotification
     public function handle(UserRegistered $event): void
     {
         NotificationService::push(
-            "New user registered: {$event->user->login}"
+            "Новый пользователь зарегестрирован: {$event->user->login}"
         );
     }
 }
