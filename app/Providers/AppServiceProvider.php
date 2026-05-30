@@ -6,7 +6,9 @@ use App\Services\Messenger\Contract\MessengerInterface;
 use App\Services\Messenger\TelegramMessenger;
 use App\Services\News\Importers\HackerNewsImporter;
 use App\Services\News\NewsImportManager;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -54,6 +56,14 @@ class AppServiceProvider extends ServiceProvider
         });
         Blade::directive('endadmin', function () {
             return "<?php endif; ?>";
+        });
+
+        View::composer('*', function ($view) {
+            $view->with('adminStats', [
+                'users' => User::count(),
+                'unverified' => User::where('is_verified', 0)->count(),
+                'news' => \App\Models\News::count(),
+            ]);
         });
     }
 }
